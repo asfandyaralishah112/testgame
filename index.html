@@ -483,6 +483,30 @@ frameborder="1"
         window.frames["iframe"].location = url;
     }
 
+    // --- Sound manager ---
+    const soundCache = {};
+    const soundBasePath = "/assets/sounds/";  // adjust if your sound folder differs
+
+    async function playSoundByName(soundName) {
+        const url = soundBasePath + soundName + ".ogg";  // auto-construct file path
+        try {
+            if (!soundCache[soundName]) {
+                const audio = new Audio(url);
+                soundCache[soundName] = audio;
+            }
+            const audio = soundCache[soundName];
+            await audio.play();
+            console.log("Playing:", soundName);
+        } catch (err) {
+            console.warn("Error playing sound:", soundName, err);
+        }
+    }
+
+    // expose this function to Python
+    window.playSoundFromPython = (soundName) => {
+        playSoundByName(soundName);
+    };
+
     </script>
 
 </body>
