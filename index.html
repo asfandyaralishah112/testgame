@@ -485,10 +485,10 @@ frameborder="1"
 
     // --- Sound manager ---
     const soundCache = {};
-    const soundBasePath = "/assets/sounds/";  // adjust if your sound folder differs
+    const soundBasePath = "./assets/Sounds/";
 
     async function playSoundByName(soundName) {
-        const url = soundBasePath + soundName + ".ogg";  // auto-construct file path
+        const url = soundBasePath + soundName + ".ogg";
         try {
             if (!soundCache[soundName]) {
                 const audio = new Audio(url);
