@@ -434,6 +434,76 @@ asyncio.run( custom_site() )
             info.hidden = debug_hidden
             box.hidden = debug_hidden
 
+<<<<<<< HEAD
+=======
+    }
+
+    function custom_prerun(){
+        // no python main and no (MEMFS + VFS) yet.
+        console.log(__FILE__, "custom_prerun")
+
+    }
+
+    function custom_postrun(){
+        // python main and no VFS filesystem yet.
+        console.log(__FILE__, "custom_postrun")
+
+        // prevent ff horizontal scroll
+        window.addEventListener("keydown", function(e) {
+            if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+                if (!python.config.debug)
+                    e.preventDefault();
+            }
+        }, false);
+
+    }
+
+    function debug() {
+        // allow to gain access to dev tools from js console
+        // but only on desktop. difficult to reach when in iframe
+        python.config.debug = true
+        custom_onload(false)
+        Module.PyRun_SimpleString("shell.uptime()")
+        window_resize()
+    }
+
+    function info_inline(data){
+        document.getElementById("info").innerHTML = data
+    }
+
+    function info_online(url) {
+        // display info about current APK
+        fetch( url /*, options */)
+            .then((response) => response.text())
+            .then((html) => {
+                info_inline(html);
+        })
+        .catch((error) => {
+            console.warn(error);
+        });
+    }
+
+    function frame_online(url) {
+        window.frames["iframe"].location = url;
+    }
+
+    // --- Sound manager ---
+    const soundCache = {};
+    const soundBasePath = "./assets/Sounds/";
+
+    async function playSoundByName(soundName) {
+        const url = soundBasePath + soundName + ".ogg";
+        try {
+            if (!soundCache[soundName]) {
+                const audio = new Audio(url);
+                soundCache[soundName] = audio;
+            }
+            const audio = soundCache[soundName];
+            await audio.play();
+            console.log("Playing:", soundName);
+        } catch (err) {
+            console.warn("Error playing sound:", soundName, err);
+>>>>>>> 07097433912e740623a7826a0ee1f85e0e8aa918
         }
 
         function custom_prerun() {
